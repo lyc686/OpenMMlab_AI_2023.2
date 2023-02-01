@@ -2,98 +2,119 @@
 
 ## 第一次课2023.2.1
 
-图像分类、图像检测、图像分割、较少用的Localization(把一个物体分出来)
+## 一、计算机视觉领域的应用
 
-<img src="../images/image-20230201194613943.png" alt="image-20230201194613943" style="zoom:80%;" />
+### 1.从大的角度来分
 
-像素层面：语义分割（不管像素重叠，也不区分单个物体）、实例分割（区分单个物体）
+1. 图像分类、
+2. 图像检测、
+3. 图像分割、
+4. 较少用的Localization(把一个物体分出来)
 
-<img src="../images/image-20230201194807227.png" alt="image-20230201194807227" style="zoom:80%;" />
+下面的图示展示的就是一些用具体表现出来的应用场景。
 
-此外还有关键点检测
+<img src="../images/image-20230201194613943.png" alt="image-20230201194613943" style="zoom:50%;margin-left:0px;" />
 
-<img src="../images/image-20230201194833386.png" alt="image-20230201194833386" style="zoom:80%;" />
+### 2.从像素层面
 
-更形象的看一下
+**像素粒度**：又叫做--细粒度 / 与位置有关的精细粒度
 
-<img src="../images/image-20230201194910123.png" alt="image-20230201194910123" style="zoom:80%;" />
+1. 语义分割（不管像素重叠，也不区分单个物体）、
+2. 实例分割（区分单个物体）
+3. 此外还有关键点检测
 
-像素粒度：细粒度 / 与位置有关的精细力度
+更形象的看一下具体应用场景如下图所示：
 
-<img src="../images/image-20230201195107457.png" alt="image-20230201195107457" style="zoom:50%;" /><img src="../images/image-20230201195232957.png" alt="image-20230201195232957" style="zoom:50%;" />
+<img src="../images/image-20230201220148826.png" alt="image-20230201220148826" style="zoom:80%;" />
 
-深度神经网络在不同的处理任务中就对应了不同的模型（RNN/Transformer/GNN等等）
 
-<img src="../images/image-20230201195601703.png" alt="image-20230201195601703" style="zoom:50%;" /><img src="../images/image-20230201195705131.png" alt="image-20230201195705131" style="zoom:50%;" /><img src="../images/image-20230201195725698.png" alt="image-20230201195725698" style="zoom:50%;" /><img src="../images/image-20230201195755752.png" alt="image-20230201195755752" style="zoom:50%;" />
 
-除了视觉还要综合各种传感器等等。
+### 3.历史发展
 
-在视频的理解中，我们如何剪辑出我们需要的部分，或者时间点。
+根据下面的统计图表我们可以看到随着2012年`Alexnet`的问世，深度学习逐渐发展，我们的模型训练**损失**逐渐下降，模型的层数也越来越深，模型逐渐变成了我们无法简单解释的**黑盒子**。
 
-<img src="../images/image-20230201195851881.png" alt="image-20230201195851881" style="zoom:50%;" /><img src="../images/image-20230201200009883.png" alt="image-20230201200009883" style="zoom:50%;" />
+<img src="../images/image-20230201220355933.png" alt="image-20230201220355933" style="zoom:80%;" />
 
-初期的特征是人为给定的
+### 4.具体的应用领域
 
-<img src="../images/image-20230201200506524.png" alt="image-20230201200506524" style="zoom:80%;" />
+深度神经网络在不同的处理任务中就对应了不同的模型（RNN/Transformer/GNN等等），而且在许多领域不单单是使用了视觉，例如**无人驾驶领域**除了视觉还要综合各种传感器等等。
 
-2012年之后的深度学习时代，人们就开始让机器去自己学
+一些具体的应用领域例如：
 
-<img src="../images/image-20230201200554229.png" alt="image-20230201200554229" style="zoom:80%;" />
+* 无人驾驶
+* 图像生成、风格迁移
+* 航拍转地图
+* 虚拟主播
+* 甚至在**视频**中，我们如何剪辑出我们需要的部分区域，或者时间点也是视觉可以考虑的问题。
 
-到现在：用海量数据，非常深，参数非常多的大模型不断出现。
+<img src="../images/image-20230201221037176.png" alt="image-20230201221037176" style="zoom:80%;" />
 
-<img src="../images/image-20230201200711874.png" alt="image-20230201200711874" style="zoom:80%;" />
+### 5.视觉系统的发展
 
-我们可以做什么
+* 初期的特征是人为给定的，告诉机器什么是可以学习的特征，让机器去学习
+* 2012年之后的深度学习时代，人们就开始让机器去自己学习特征
+* 到现在：用海量数据，非常深，参数非常多的大模型不断出现。
 
-<img src="../images/image-20230201200809870.png" alt="image-20230201200809870" style="zoom:80%;" />
+<img src="../images/image-20230201221657633.png" alt="image-20230201221657633" style="zoom:80%;" />
 
-OpenMMlab发展
 
-<img src="../images/image-20230201201010933.png" alt="image-20230201201010933" style="zoom:50%;" /><img src="../images/image-20230201201026849.png" alt="image-20230201201026849" style="zoom:50%;" />
 
-一些部署介绍
 
-<img src="../images/image-20230201201241774.png" alt="image-20230201201241774" style="zoom:80%;" />
 
-一些OpenMMlab的算法框架
+## 二、OpenMMlab发展
 
-<img src="../images/image-20230201201637257.png" alt="image-20230201201637257" style="zoom:50%;" /><img src="../images/image-20230201201654653.png" alt="image-20230201201654653" style="zoom:50%;" /><img src="../images/image-20230201201738024.png" alt="image-20230201201738024" style="zoom:50%;" /><img src="../images/image-20230201202437459.png" alt="image-20230201202437459" style="zoom:50%;" />
+### 1.发展历程
 
-对于自己的数据集我们可以直接使用OpenMMlab中的算法来进行操作。可以看到里面的复现了很多最新论文的方法。
+下图所示的就是OpenMMlab的一些发展历程，可以看到OpenMMlab也是从最开始非常有限的函数功能，到现在能够包揽20+的视觉算法库。
 
-<font color="red">OpenMMlab是基于pytorch的，但又不完全基于原生pytorch，因为有很多新方法仅靠pytorch无法完成。</font>
+<img src="../images/image-20230201221846542.png" alt="image-20230201221846542" style="zoom:80%;" />
 
-<img src="../images/image-20230201202704712.png" alt="image-20230201202704712" style="zoom:50%;" /><img src="../images/image-20230201202728167.png" alt="image-20230201202728167" style="zoom:50%;" />
 
-作为开发者我们仅需会掉包即可。
 
-底层的内容如果不是做版本升级不是很需要学习。
+### 2.OpenMMlab的算法框架
 
-<img src="../images/image-20230201202932465.png" alt="image-20230201202932465" style="zoom:80%;" />
+OpenMMlab包括有非常丰富的算法框架能够解决一系列的问题，例如：
 
-在OpenMMlab的官网或者github中给出的其实就是该领域中的必读论文，我们也可以不去读综述。
+* **MMDetection**（目标检测、实例分割、全景分隔）
+* **MMDetection3D**（3D目标检测）
+*  **MMClassification**（图像分类）
+* **MMSegmentation**（语义分割）
+* **MMPose & MMHuman3D**（姿态检测）
+* **MMTracking**（目标追踪）
+* **MMAction2**（行为识别）
+* **MMOCR**（文本检测）
+* 等等
 
-机器学习与神经网络的简介
+下面给出了一部分的截图示例：
 
-<img src="../images/image-20230201203636497.png" alt="image-20230201203636497" style="zoom:50%;" /><img src="../images/image-20230201204136310.png" alt="image-20230201204136310" style="zoom:50%;" />
+<img src="../images/image-20230201222449922.png" alt="image-20230201222449922" style="zoom:80%;" />
 
-大道至简都是从数据出发去分类去挖掘去检测
+### 3.使用OpenMMlab的便利
 
-<img src="../images/image-20230201204152327.png" alt="image-20230201204152327" style="zoom:80%;" />
+1. 对于自己的数据集我们可以直接使用OpenMMlab中的算法来进行操作。可以看到里面的复现了很多最新论文的方法。<font color="red">OpenMMlab是基于pytorch的，但又不完全基于原生pytorch，因为有很多新方法仅靠pytorch无法完成。</font>作为开发者我们仅需会**调包**即可。底层的内容如果不是做版本升级不是很需要学习。
 
-机器学习的基本流程：
+<img src="../images/image-20230201222509739.png" alt="image-20230201222509739" style="zoom:80%;" />
 
-<img src="../images/image-20230201204802638.png" alt="image-20230201204802638" style="zoom:80%;" />
 
-通常batch取2的指数次方
 
-<img src="../images/image-20230201205726169.png" alt="image-20230201205726169" style="zoom:80%;" />
 
-<img src="../images/image-20230201205843363.png" alt="image-20230201205843363" style="zoom:80%;" />
 
-神经网络+CNN介绍了一会
+2. 在OpenMMlab的官网或者github中给出的其实就是该领域中的**必读论文**，我们也可以不去读综述。
 
-研究方向推荐：
+## 三、机器学习与神经网络
 
-<img src="../images/image-20230201211322746.png" alt="image-20230201211322746" style="zoom:80%;" />
+### 1.相关知识介绍
+
+这一部分主要讲解了以下几方面内容，比较基础我就不展开来分析了：
+
+* 什么是**机器学习**（从数据中学习经，已解决特定问题），
+* 机器学习的**基本流程**（训练、验证、应用）、
+* 简单的**分类问题**（从数据中学习）、
+* **神经网络**的基本概念（线性分类器、非线性分类器）、
+* 神经网络的**损失函数**（交叉熵损失函数）、
+* **梯度下降法**（反向传播、Adam优化器、batch大小）、
+* **卷积神经网络**的相关知识（局部连接、参数共享、池化、激活函数）
+
+### 2.研究方向推荐
+
+<img src="../images/image-20230201211322746.png" alt="image-20230201211322746" style="zoom:50%;margin-left:0px;" />
