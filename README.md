@@ -1,0 +1,2 @@
+# OpenMMlab_AI_2023.2
+2023年2月参加OpenMMlab举办的寒假AI实战营笔记
