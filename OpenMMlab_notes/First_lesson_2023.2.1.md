@@ -2,6 +2,26 @@
 
 ## 第一次课2023.2.1
 
+此次实战营的任务安排：
+
+<img src="../images/image-20230203002344517.png" alt="image-20230203002344517" style="zoom:50%;margin-left:0px;" />
+
+
+
+## 学习参考
+
+笔记建议结合ppt来学习使用，ppt中对应知识可以参照笔记的标题进行查看。
+
+ppt：[lesson1_ppt](https://github.com/lyc686/OpenMMlab_AI_2023.2/blob/main/ppt/01%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E4%B8%8EOpenMMLab%E4%BB%8B%E7%BB%8D.pdf)
+
+b站回放：[OpenMMLab AI 实战营](https://space.bilibili.com/1293512903/channel/collectiondetail?sid=1068652)
+
+相关学习推荐：
+
+* 同济子豪兄（大佬）：[子豪兄b站主页](https://space.bilibili.com/1900783?spm_id_from=333.337.0.0)
+* OpenMMlab主页：[OpenMMla主页](https://space.bilibili.com/1293512903)
+* OpenMMlab Github仓库链接：[Github OpenMMlab](https://github.com/open-mmlab)
+
 ## 一、计算机视觉领域的应用
 
 ### 1.从大的角度来分
