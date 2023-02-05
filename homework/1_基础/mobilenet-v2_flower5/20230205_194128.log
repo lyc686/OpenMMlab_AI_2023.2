@@ -1,0 +1,246 @@
+2023-02-05 19:41:28,262 - mmcls - INFO - Environment info:
+------------------------------------------------------------
+sys.platform: linux
+Python: 3.7.10 (default, Jun  4 2021, 14:48:32) [GCC 7.5.0]
+CUDA available: True
+GPU 0: NVIDIA GeForce RTX 3060
+CUDA_HOME: /usr/local/cuda
+NVCC: Cuda compilation tools, release 11.2, V11.2.152
+GCC: gcc (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
+PyTorch: 1.10.0+cu113
+PyTorch compiling details: PyTorch built with:
+  - GCC 7.3
+  - C++ Version: 201402
+  - Intel(R) Math Kernel Library Version 2020.0.0 Product Build 20191122 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v2.2.3 (Git Hash 7336ca9f055cf1bfa13efb658fe15dc9b41f0740)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 11.3
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86
+  - CuDNN 8.2
+  - Magma 2.5.2
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=11.3, CUDNN_VERSION=8.2.0, CXX_COMPILER=/opt/rh/devtoolset-7/root/usr/bin/c++, CXX_FLAGS= -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_KINETO -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DEDGE_PROFILER_USE_KINETO -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-unused-result -Wno-unused-local-typedefs -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-psabi -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=1.10.0, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, 
+
+TorchVision: 0.11.1+cu113
+OpenCV: 4.5.4
+MMCV: 1.7.1
+MMCV Compiler: GCC 9.3
+MMCV CUDA Compiler: 11.3
+MMClassification: 0.25.0+
+------------------------------------------------------------
+
+2023-02-05 19:41:28,262 - mmcls - INFO - Distributed training: False
+2023-02-05 19:41:28,372 - mmcls - INFO - Config:
+model = dict(
+    type='ImageClassifier',
+    backbone=dict(type='MobileNetV2', widen_factor=1.0),
+    neck=dict(type='GlobalAveragePooling'),
+    head=dict(
+        type='LinearClsHead',
+        num_classes=5,
+        in_channels=1280,
+        loss=dict(type='CrossEntropyLoss', loss_weight=1.0),
+        topk=(1, 5)))
+load_from = 'mobilenet_v2_batch256_imagenet_20200708-3b2dc3af.pth'
+data = dict(
+    samples_per_gpu=32,
+    workers_per_gpu=2,
+    train=dict(
+        type='CustomDataset',
+        data_prefix='data/flower_dataset/train',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(type='RandomResizedCrop', size=224, backend='pillow'),
+            dict(type='RandomFlip', flip_prob=0.5, direction='horizontal'),
+            dict(
+                type='Normalize',
+                mean=[123.675, 116.28, 103.53],
+                std=[58.395, 57.12, 57.375],
+                to_rgb=True),
+            dict(type='ImageToTensor', keys=['img']),
+            dict(type='ToTensor', keys=['gt_label']),
+            dict(type='Collect', keys=['img', 'gt_label'])
+        ]),
+    val=dict(
+        type='CustomDataset',
+        data_prefix='data/flower_dataset/val',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(type='Resize', size=(256, -1), backend='pillow'),
+            dict(type='CenterCrop', crop_size=224),
+            dict(
+                type='Normalize',
+                mean=[123.675, 116.28, 103.53],
+                std=[58.395, 57.12, 57.375],
+                to_rgb=True),
+            dict(type='ImageToTensor', keys=['img']),
+            dict(type='Collect', keys=['img'])
+        ]),
+    test=dict(
+        type='CustomDataset',
+        data_prefix='data/flower_dataset/val',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(type='Resize', size=(256, -1), backend='pillow'),
+            dict(type='CenterCrop', crop_size=224),
+            dict(
+                type='Normalize',
+                mean=[123.675, 116.28, 103.53],
+                std=[58.395, 57.12, 57.375],
+                to_rgb=True),
+            dict(type='ImageToTensor', keys=['img']),
+            dict(type='Collect', keys=['img'])
+        ]))
+evaluation = dict(interval=1, metric='accuracy')
+optimizer = dict(type='SGD', lr=0.005, momentum=0.9, weight_decay=4e-05)
+optimizer_config = dict(grad_clip=None)
+lr_config = dict(policy='step', gamma=0.98, step=1)
+runner = dict(type='EpochBasedRunner', max_epochs=10)
+checkpoint_config = dict(interval=5)
+log_config = dict(interval=10, hooks=[dict(type='TextLoggerHook')])
+dist_params = dict(backend='nccl')
+log_level = 'INFO'
+resume_from = None
+workflow = [('train', 1)]
+work_dir = './work_dirs/mobilenet-v2_flower5'
+gpu_ids = range(0, 1)
+
+2023-02-05 19:41:28,372 - mmcls - INFO - Set random seed to 822248908, deterministic: False
+2023-02-05 19:41:34,913 - mmcls - INFO - load checkpoint from local path: mobilenet_v2_batch256_imagenet_20200708-3b2dc3af.pth
+2023-02-05 19:41:34,951 - mmcls - WARNING - The model and loaded state dict do not match exactly
+
+size mismatch for head.fc.weight: copying a param with shape torch.Size([1000, 1280]) from checkpoint, the shape in current model is torch.Size([5, 1280]).
+size mismatch for head.fc.bias: copying a param with shape torch.Size([1000]) from checkpoint, the shape in current model is torch.Size([5]).
+2023-02-05 19:41:34,951 - mmcls - INFO - Start running, host: featurize@featurize, work_dir: /home/featurize/work/OpenMMlab_AI_2023.2/run/work_dirs/mobilenet-v2_flower5
+2023-02-05 19:41:34,952 - mmcls - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) StepLrUpdaterHook                  
+(NORMAL      ) CheckpointHook                     
+(LOW         ) EvalHook                           
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) StepLrUpdaterHook                  
+(LOW         ) IterTimerHook                      
+(LOW         ) EvalHook                           
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) StepLrUpdaterHook                  
+(LOW         ) IterTimerHook                      
+(LOW         ) EvalHook                           
+ -------------------- 
+after_train_iter:
+(ABOVE_NORMAL) OptimizerHook                      
+(NORMAL      ) CheckpointHook                     
+(LOW         ) IterTimerHook                      
+(LOW         ) EvalHook                           
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) CheckpointHook                     
+(LOW         ) EvalHook                           
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_val_epoch:
+(LOW         ) IterTimerHook                      
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_val_iter:
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_val_epoch:
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+after_run:
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+2023-02-05 19:41:34,952 - mmcls - INFO - workflow: [('train', 1)], max: 10 epochs
+2023-02-05 19:41:34,952 - mmcls - INFO - Checkpoints will be saved to /home/featurize/work/OpenMMlab_AI_2023.2/run/work_dirs/mobilenet-v2_flower5 by HardDiskBackend.
+2023-02-05 19:41:38,315 - mmcls - INFO - Epoch [1][10/72]	lr: 5.000e-03, eta: 0:03:57, time: 0.334, data_time: 0.239, memory: 2456, loss: 1.2117
+2023-02-05 19:41:39,178 - mmcls - INFO - Epoch [1][20/72]	lr: 5.000e-03, eta: 0:02:27, time: 0.086, data_time: 0.003, memory: 2456, loss: 0.4715
+2023-02-05 19:41:40,036 - mmcls - INFO - Epoch [1][30/72]	lr: 5.000e-03, eta: 0:01:56, time: 0.086, data_time: 0.003, memory: 2456, loss: 0.4140
+2023-02-05 19:41:40,893 - mmcls - INFO - Epoch [1][40/72]	lr: 5.000e-03, eta: 0:01:40, time: 0.086, data_time: 0.003, memory: 2456, loss: 0.3863
+2023-02-05 19:41:41,745 - mmcls - INFO - Epoch [1][50/72]	lr: 5.000e-03, eta: 0:01:30, time: 0.085, data_time: 0.002, memory: 2456, loss: 0.3662
+2023-02-05 19:41:42,613 - mmcls - INFO - Epoch [1][60/72]	lr: 5.000e-03, eta: 0:01:24, time: 0.087, data_time: 0.002, memory: 2456, loss: 0.5897
+2023-02-05 19:41:43,476 - mmcls - INFO - Epoch [1][70/72]	lr: 5.000e-03, eta: 0:01:18, time: 0.086, data_time: 0.002, memory: 2456, loss: 0.5294
+2023-02-05 19:41:45,394 - mmcls - INFO - Epoch(val) [1][18]	accuracy_top-1: 89.9648, accuracy_top-5: 100.0000
+2023-02-05 19:41:48,527 - mmcls - INFO - Epoch [2][10/72]	lr: 4.900e-03, eta: 0:01:30, time: 0.311, data_time: 0.225, memory: 2456, loss: 0.3976
+2023-02-05 19:41:49,391 - mmcls - INFO - Epoch [2][20/72]	lr: 4.900e-03, eta: 0:01:25, time: 0.086, data_time: 0.002, memory: 2456, loss: 0.5582
+2023-02-05 19:41:50,248 - mmcls - INFO - Epoch [2][30/72]	lr: 4.900e-03, eta: 0:01:20, time: 0.086, data_time: 0.003, memory: 2456, loss: 0.3806
+2023-02-05 19:41:51,107 - mmcls - INFO - Epoch [2][40/72]	lr: 4.900e-03, eta: 0:01:17, time: 0.085, data_time: 0.002, memory: 2456, loss: 0.5444
+2023-02-05 19:41:51,966 - mmcls - INFO - Epoch [2][50/72]	lr: 4.900e-03, eta: 0:01:13, time: 0.087, data_time: 0.002, memory: 2456, loss: 0.5841
+2023-02-05 19:41:52,827 - mmcls - INFO - Epoch [2][60/72]	lr: 4.900e-03, eta: 0:01:10, time: 0.086, data_time: 0.002, memory: 2456, loss: 0.4358
+2023-02-05 19:41:53,693 - mmcls - INFO - Epoch [2][70/72]	lr: 4.900e-03, eta: 0:01:08, time: 0.086, data_time: 0.002, memory: 2456, loss: 0.3460
+2023-02-05 19:41:55,512 - mmcls - INFO - Epoch(val) [2][18]	accuracy_top-1: 89.4366, accuracy_top-5: 100.0000
+2023-02-05 19:41:58,671 - mmcls - INFO - Epoch [3][10/72]	lr: 4.802e-03, eta: 0:01:13, time: 0.313, data_time: 0.235, memory: 2456, loss: 0.3479
+2023-02-05 19:41:59,543 - mmcls - INFO - Epoch [3][20/72]	lr: 4.802e-03, eta: 0:01:10, time: 0.087, data_time: 0.003, memory: 2456, loss: 0.2347
+2023-02-05 19:42:00,450 - mmcls - INFO - Epoch [3][30/72]	lr: 4.802e-03, eta: 0:01:08, time: 0.090, data_time: 0.012, memory: 2456, loss: 0.3004
+2023-02-05 19:42:01,300 - mmcls - INFO - Epoch [3][40/72]	lr: 4.802e-03, eta: 0:01:05, time: 0.086, data_time: 0.003, memory: 2456, loss: 0.3126
+2023-02-05 19:42:02,142 - mmcls - INFO - Epoch [3][50/72]	lr: 4.802e-03, eta: 0:01:03, time: 0.084, data_time: 0.003, memory: 2456, loss: 0.2531
+2023-02-05 19:42:02,984 - mmcls - INFO - Epoch [3][60/72]	lr: 4.802e-03, eta: 0:01:01, time: 0.085, data_time: 0.003, memory: 2456, loss: 0.3356
+2023-02-05 19:42:03,852 - mmcls - INFO - Epoch [3][70/72]	lr: 4.802e-03, eta: 0:00:59, time: 0.087, data_time: 0.003, memory: 2456, loss: 0.3150
+2023-02-05 19:42:05,683 - mmcls - INFO - Epoch(val) [3][18]	accuracy_top-1: 92.6056, accuracy_top-5: 100.0000
+2023-02-05 19:42:08,807 - mmcls - INFO - Epoch [4][10/72]	lr: 4.706e-03, eta: 0:01:01, time: 0.310, data_time: 0.232, memory: 2456, loss: 0.3121
+2023-02-05 19:42:09,702 - mmcls - INFO - Epoch [4][20/72]	lr: 4.706e-03, eta: 0:00:59, time: 0.090, data_time: 0.003, memory: 2456, loss: 0.3106
+2023-02-05 19:42:10,578 - mmcls - INFO - Epoch [4][30/72]	lr: 4.706e-03, eta: 0:00:57, time: 0.087, data_time: 0.002, memory: 2456, loss: 0.2613
+2023-02-05 19:42:11,475 - mmcls - INFO - Epoch [4][40/72]	lr: 4.706e-03, eta: 0:00:55, time: 0.090, data_time: 0.007, memory: 2456, loss: 0.2796
+2023-02-05 19:42:12,361 - mmcls - INFO - Epoch [4][50/72]	lr: 4.706e-03, eta: 0:00:54, time: 0.088, data_time: 0.003, memory: 2456, loss: 0.3358
+2023-02-05 19:42:13,232 - mmcls - INFO - Epoch [4][60/72]	lr: 4.706e-03, eta: 0:00:52, time: 0.087, data_time: 0.003, memory: 2456, loss: 0.3515
+2023-02-05 19:42:14,100 - mmcls - INFO - Epoch [4][70/72]	lr: 4.706e-03, eta: 0:00:50, time: 0.087, data_time: 0.002, memory: 2456, loss: 0.2831
+2023-02-05 19:42:15,859 - mmcls - INFO - Epoch(val) [4][18]	accuracy_top-1: 94.1901, accuracy_top-5: 100.0000
+2023-02-05 19:42:18,951 - mmcls - INFO - Epoch [5][10/72]	lr: 4.612e-03, eta: 0:00:51, time: 0.307, data_time: 0.220, memory: 2456, loss: 0.2297
+2023-02-05 19:42:19,824 - mmcls - INFO - Epoch [5][20/72]	lr: 4.612e-03, eta: 0:00:50, time: 0.088, data_time: 0.003, memory: 2456, loss: 0.2498
+2023-02-05 19:42:20,691 - mmcls - INFO - Epoch [5][30/72]	lr: 4.612e-03, eta: 0:00:48, time: 0.087, data_time: 0.002, memory: 2456, loss: 0.2954
+2023-02-05 19:42:21,552 - mmcls - INFO - Epoch [5][40/72]	lr: 4.612e-03, eta: 0:00:46, time: 0.085, data_time: 0.002, memory: 2456, loss: 0.2105
+2023-02-05 19:42:22,397 - mmcls - INFO - Epoch [5][50/72]	lr: 4.612e-03, eta: 0:00:45, time: 0.085, data_time: 0.003, memory: 2456, loss: 0.2501
+2023-02-05 19:42:23,262 - mmcls - INFO - Epoch [5][60/72]	lr: 4.612e-03, eta: 0:00:43, time: 0.086, data_time: 0.003, memory: 2456, loss: 0.2259
+2023-02-05 19:42:24,125 - mmcls - INFO - Epoch [5][70/72]	lr: 4.612e-03, eta: 0:00:42, time: 0.087, data_time: 0.003, memory: 2456, loss: 0.2380
+2023-02-05 19:42:24,257 - mmcls - INFO - Saving checkpoint at 5 epochs
+2023-02-05 19:42:25,930 - mmcls - INFO - Epoch(val) [5][18]	accuracy_top-1: 94.0141, accuracy_top-5: 100.0000
+2023-02-05 19:42:29,065 - mmcls - INFO - Epoch [6][10/72]	lr: 4.520e-03, eta: 0:00:42, time: 0.311, data_time: 0.231, memory: 2456, loss: 0.2307
+2023-02-05 19:42:29,955 - mmcls - INFO - Epoch [6][20/72]	lr: 4.520e-03, eta: 0:00:40, time: 0.088, data_time: 0.003, memory: 2456, loss: 0.2722
+2023-02-05 19:42:30,801 - mmcls - INFO - Epoch [6][30/72]	lr: 4.520e-03, eta: 0:00:39, time: 0.085, data_time: 0.003, memory: 2456, loss: 0.2056
+2023-02-05 19:42:31,681 - mmcls - INFO - Epoch [6][40/72]	lr: 4.520e-03, eta: 0:00:37, time: 0.088, data_time: 0.003, memory: 2456, loss: 0.2301
+2023-02-05 19:42:32,541 - mmcls - INFO - Epoch [6][50/72]	lr: 4.520e-03, eta: 0:00:36, time: 0.086, data_time: 0.003, memory: 2456, loss: 0.1923
+2023-02-05 19:42:33,409 - mmcls - INFO - Epoch [6][60/72]	lr: 4.520e-03, eta: 0:00:35, time: 0.086, data_time: 0.003, memory: 2456, loss: 0.1918
+2023-02-05 19:42:34,300 - mmcls - INFO - Epoch [6][70/72]	lr: 4.520e-03, eta: 0:00:33, time: 0.089, data_time: 0.010, memory: 2456, loss: 0.1821
+2023-02-05 19:42:36,089 - mmcls - INFO - Epoch(val) [6][18]	accuracy_top-1: 94.1901, accuracy_top-5: 100.0000
+2023-02-05 19:42:39,244 - mmcls - INFO - Epoch [7][10/72]	lr: 4.429e-03, eta: 0:00:33, time: 0.313, data_time: 0.235, memory: 2456, loss: 0.1565
+2023-02-05 19:42:40,096 - mmcls - INFO - Epoch [7][20/72]	lr: 4.429e-03, eta: 0:00:32, time: 0.084, data_time: 0.002, memory: 2456, loss: 0.1444
+2023-02-05 19:42:40,968 - mmcls - INFO - Epoch [7][30/72]	lr: 4.429e-03, eta: 0:00:30, time: 0.087, data_time: 0.003, memory: 2456, loss: 0.2052
+2023-02-05 19:42:41,816 - mmcls - INFO - Epoch [7][40/72]	lr: 4.429e-03, eta: 0:00:29, time: 0.085, data_time: 0.003, memory: 2456, loss: 0.2532
+2023-02-05 19:42:42,702 - mmcls - INFO - Epoch [7][50/72]	lr: 4.429e-03, eta: 0:00:27, time: 0.088, data_time: 0.003, memory: 2456, loss: 0.2217
+2023-02-05 19:42:43,568 - mmcls - INFO - Epoch [7][60/72]	lr: 4.429e-03, eta: 0:00:26, time: 0.087, data_time: 0.003, memory: 2456, loss: 0.1489
+2023-02-05 19:42:44,442 - mmcls - INFO - Epoch [7][70/72]	lr: 4.429e-03, eta: 0:00:25, time: 0.087, data_time: 0.003, memory: 2456, loss: 0.2160
+2023-02-05 19:42:46,189 - mmcls - INFO - Epoch(val) [7][18]	accuracy_top-1: 93.1338, accuracy_top-5: 100.0000
+2023-02-05 19:42:49,296 - mmcls - INFO - Epoch [8][10/72]	lr: 4.341e-03, eta: 0:00:24, time: 0.308, data_time: 0.222, memory: 2456, loss: 0.2451
+2023-02-05 19:42:50,176 - mmcls - INFO - Epoch [8][20/72]	lr: 4.341e-03, eta: 0:00:23, time: 0.088, data_time: 0.003, memory: 2456, loss: 0.2609
+2023-02-05 19:42:51,045 - mmcls - INFO - Epoch [8][30/72]	lr: 4.341e-03, eta: 0:00:22, time: 0.087, data_time: 0.002, memory: 2456, loss: 0.2170
+2023-02-05 19:42:51,913 - mmcls - INFO - Epoch [8][40/72]	lr: 4.341e-03, eta: 0:00:20, time: 0.087, data_time: 0.003, memory: 2456, loss: 0.1993
+2023-02-05 19:42:52,792 - mmcls - INFO - Epoch [8][50/72]	lr: 4.341e-03, eta: 0:00:19, time: 0.088, data_time: 0.003, memory: 2456, loss: 0.1583
+2023-02-05 19:42:53,663 - mmcls - INFO - Epoch [8][60/72]	lr: 4.341e-03, eta: 0:00:18, time: 0.087, data_time: 0.002, memory: 2456, loss: 0.1732
+2023-02-05 19:42:54,534 - mmcls - INFO - Epoch [8][70/72]	lr: 4.341e-03, eta: 0:00:16, time: 0.086, data_time: 0.002, memory: 2456, loss: 0.2189
+2023-02-05 19:42:56,307 - mmcls - INFO - Epoch(val) [8][18]	accuracy_top-1: 94.0141, accuracy_top-5: 100.0000
+2023-02-05 19:42:59,588 - mmcls - INFO - Epoch [9][10/72]	lr: 4.254e-03, eta: 0:00:15, time: 0.306, data_time: 0.230, memory: 2456, loss: 0.1611
+2023-02-05 19:43:00,525 - mmcls - INFO - Epoch [9][20/72]	lr: 4.254e-03, eta: 0:00:14, time: 0.094, data_time: 0.017, memory: 2456, loss: 0.1724
+2023-02-05 19:43:01,452 - mmcls - INFO - Epoch [9][30/72]	lr: 4.254e-03, eta: 0:00:13, time: 0.093, data_time: 0.003, memory: 2456, loss: 0.1585
+2023-02-05 19:43:02,309 - mmcls - INFO - Epoch [9][40/72]	lr: 4.254e-03, eta: 0:00:12, time: 0.086, data_time: 0.003, memory: 2456, loss: 0.1297
+2023-02-05 19:43:03,154 - mmcls - INFO - Epoch [9][50/72]	lr: 4.254e-03, eta: 0:00:11, time: 0.084, data_time: 0.003, memory: 2456, loss: 0.2032
+2023-02-05 19:43:03,994 - mmcls - INFO - Epoch [9][60/72]	lr: 4.254e-03, eta: 0:00:09, time: 0.084, data_time: 0.003, memory: 2456, loss: 0.1402
+2023-02-05 19:43:04,835 - mmcls - INFO - Epoch [9][70/72]	lr: 4.254e-03, eta: 0:00:08, time: 0.084, data_time: 0.003, memory: 2456, loss: 0.1323
+2023-02-05 19:43:06,629 - mmcls - INFO - Epoch(val) [9][18]	accuracy_top-1: 94.5423, accuracy_top-5: 100.0000
+2023-02-05 19:43:09,720 - mmcls - INFO - Epoch [10][10/72]	lr: 4.169e-03, eta: 0:00:07, time: 0.306, data_time: 0.235, memory: 2456, loss: 0.2099
+2023-02-05 19:43:10,551 - mmcls - INFO - Epoch [10][20/72]	lr: 4.169e-03, eta: 0:00:06, time: 0.083, data_time: 0.006, memory: 2456, loss: 0.2536
+2023-02-05 19:43:11,405 - mmcls - INFO - Epoch [10][30/72]	lr: 4.169e-03, eta: 0:00:04, time: 0.085, data_time: 0.003, memory: 2456, loss: 0.2462
+2023-02-05 19:43:12,263 - mmcls - INFO - Epoch [10][40/72]	lr: 4.169e-03, eta: 0:00:03, time: 0.086, data_time: 0.003, memory: 2456, loss: 0.2089
+2023-02-05 19:43:13,106 - mmcls - INFO - Epoch [10][50/72]	lr: 4.169e-03, eta: 0:00:02, time: 0.084, data_time: 0.003, memory: 2456, loss: 0.1799
+2023-02-05 19:43:13,959 - mmcls - INFO - Epoch [10][60/72]	lr: 4.169e-03, eta: 0:00:01, time: 0.085, data_time: 0.003, memory: 2456, loss: 0.1078
+2023-02-05 19:43:14,814 - mmcls - INFO - Epoch [10][70/72]	lr: 4.169e-03, eta: 0:00:00, time: 0.085, data_time: 0.003, memory: 2456, loss: 0.2356
+2023-02-05 19:43:14,934 - mmcls - INFO - Saving checkpoint at 10 epochs
+2023-02-05 19:43:16,671 - mmcls - INFO - Epoch(val) [10][18]	accuracy_top-1: 95.2465, accuracy_top-5: 100.0000
