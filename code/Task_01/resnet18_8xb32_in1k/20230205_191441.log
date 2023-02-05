@@ -1,0 +1,211 @@
+2023-02-05 19:14:41,824 - mmcls - INFO - Environment info:
+------------------------------------------------------------
+sys.platform: linux
+Python: 3.7.10 (default, Jun  4 2021, 14:48:32) [GCC 7.5.0]
+CUDA available: True
+GPU 0: NVIDIA GeForce RTX 3060
+CUDA_HOME: /usr/local/cuda
+NVCC: Cuda compilation tools, release 11.2, V11.2.152
+GCC: gcc (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
+PyTorch: 1.10.0+cu113
+PyTorch compiling details: PyTorch built with:
+  - GCC 7.3
+  - C++ Version: 201402
+  - Intel(R) Math Kernel Library Version 2020.0.0 Product Build 20191122 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v2.2.3 (Git Hash 7336ca9f055cf1bfa13efb658fe15dc9b41f0740)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 11.3
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86
+  - CuDNN 8.2
+  - Magma 2.5.2
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=11.3, CUDNN_VERSION=8.2.0, CXX_COMPILER=/opt/rh/devtoolset-7/root/usr/bin/c++, CXX_FLAGS= -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_KINETO -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DEDGE_PROFILER_USE_KINETO -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-unused-result -Wno-unused-local-typedefs -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-psabi -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=1.10.0, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, 
+
+TorchVision: 0.11.1+cu113
+OpenCV: 4.5.4
+MMCV: 1.7.1
+MMCV Compiler: GCC 9.3
+MMCV CUDA Compiler: 11.3
+MMClassification: 0.25.0+
+------------------------------------------------------------
+
+2023-02-05 19:14:41,825 - mmcls - INFO - Distributed training: False
+2023-02-05 19:14:41,925 - mmcls - INFO - Config:
+model = dict(
+    type='ImageClassifier',
+    backbone=dict(
+        type='ResNet',
+        depth=18,
+        num_stages=4,
+        out_indices=(3, ),
+        style='pytorch'),
+    neck=dict(type='GlobalAveragePooling'),
+    head=dict(
+        type='LinearClsHead',
+        num_classes=5,
+        in_channels=512,
+        loss=dict(type='CrossEntropyLoss', loss_weight=1.0),
+        topk=(1, 5)))
+load_from = 'resnet18_8xb32_in1k_20210831-fbbb1da6.pth'
+data = dict(
+    samples_per_gpu=32,
+    workers_per_gpu=2,
+    train=dict(
+        type='CustomDataset',
+        data_prefix='data/flower_dataset/train',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(type='RandomResizedCrop', size=224),
+            dict(type='RandomFlip', flip_prob=0.5, direction='horizontal'),
+            dict(
+                type='Normalize',
+                mean=[123.675, 116.28, 103.53],
+                std=[58.395, 57.12, 57.375],
+                to_rgb=True),
+            dict(type='ImageToTensor', keys=['img']),
+            dict(type='ToTensor', keys=['gt_label']),
+            dict(type='Collect', keys=['img', 'gt_label'])
+        ]),
+    val=dict(
+        type='CustomDataset',
+        data_prefix='data/flower_dataset/val',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(type='Resize', size=(256, -1)),
+            dict(type='CenterCrop', crop_size=224),
+            dict(
+                type='Normalize',
+                mean=[123.675, 116.28, 103.53],
+                std=[58.395, 57.12, 57.375],
+                to_rgb=True),
+            dict(type='ImageToTensor', keys=['img']),
+            dict(type='Collect', keys=['img'])
+        ]),
+    test=dict(
+        type='CustomDataset',
+        data_prefix='data/flower_dataset/val',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(type='Resize', size=(256, -1)),
+            dict(type='CenterCrop', crop_size=224),
+            dict(
+                type='Normalize',
+                mean=[123.675, 116.28, 103.53],
+                std=[58.395, 57.12, 57.375],
+                to_rgb=True),
+            dict(type='ImageToTensor', keys=['img']),
+            dict(type='Collect', keys=['img'])
+        ]))
+evaluation = dict(interval=1, metric='accuracy')
+optimizer = dict(type='SGD', lr=0.001, momentum=0.9, weight_decay=0.0001)
+optimizer_config = dict(grad_clip=None)
+lr_config = dict(policy='step', step=[30, 60, 90])
+runner = dict(type='EpochBasedRunner', max_epochs=10)
+checkpoint_config = dict(interval=5)
+log_config = dict(interval=20, hooks=[dict(type='TextLoggerHook')])
+dist_params = dict(backend='nccl')
+log_level = 'INFO'
+resume_from = None
+workflow = [('train', 1)]
+work_dir = './work_dirs/resnet18_8xb32_in1k'
+gpu_ids = range(0, 1)
+
+2023-02-05 19:14:41,926 - mmcls - INFO - Set random seed to 1464604417, deterministic: False
+2023-02-05 19:14:48,148 - mmcls - INFO - load checkpoint from local path: resnet18_8xb32_in1k_20210831-fbbb1da6.pth
+2023-02-05 19:14:48,194 - mmcls - WARNING - The model and loaded state dict do not match exactly
+
+size mismatch for head.fc.weight: copying a param with shape torch.Size([1000, 512]) from checkpoint, the shape in current model is torch.Size([5, 512]).
+size mismatch for head.fc.bias: copying a param with shape torch.Size([1000]) from checkpoint, the shape in current model is torch.Size([5]).
+2023-02-05 19:14:48,195 - mmcls - INFO - Start running, host: featurize@featurize, work_dir: /home/featurize/work/OpenMMlab_AI_2023.2/run/work_dirs/resnet18_8xb32_in1k
+2023-02-05 19:14:48,195 - mmcls - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) StepLrUpdaterHook                  
+(NORMAL      ) CheckpointHook                     
+(LOW         ) EvalHook                           
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) StepLrUpdaterHook                  
+(LOW         ) IterTimerHook                      
+(LOW         ) EvalHook                           
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) StepLrUpdaterHook                  
+(LOW         ) IterTimerHook                      
+(LOW         ) EvalHook                           
+ -------------------- 
+after_train_iter:
+(ABOVE_NORMAL) OptimizerHook                      
+(NORMAL      ) CheckpointHook                     
+(LOW         ) IterTimerHook                      
+(LOW         ) EvalHook                           
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) CheckpointHook                     
+(LOW         ) EvalHook                           
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_val_epoch:
+(LOW         ) IterTimerHook                      
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_val_iter:
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_val_epoch:
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+after_run:
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+2023-02-05 19:14:48,195 - mmcls - INFO - workflow: [('train', 1)], max: 10 epochs
+2023-02-05 19:14:48,196 - mmcls - INFO - Checkpoints will be saved to /home/featurize/work/OpenMMlab_AI_2023.2/run/work_dirs/resnet18_8xb32_in1k by HardDiskBackend.
+2023-02-05 19:14:51,900 - mmcls - INFO - Epoch [1][20/72]	lr: 1.000e-03, eta: 0:02:08, time: 0.184, data_time: 0.118, memory: 880, loss: 1.4131
+2023-02-05 19:14:53,145 - mmcls - INFO - Epoch [1][40/72]	lr: 1.000e-03, eta: 0:01:23, time: 0.062, data_time: 0.002, memory: 880, loss: 0.8463
+2023-02-05 19:14:54,389 - mmcls - INFO - Epoch [1][60/72]	lr: 1.000e-03, eta: 0:01:07, time: 0.062, data_time: 0.002, memory: 880, loss: 0.5299
+2023-02-05 19:14:59,555 - mmcls - INFO - Epoch(val) [1][18]	accuracy_top-1: 90.3169, accuracy_top-5: 100.0000
+2023-02-05 19:15:03,035 - mmcls - INFO - Epoch [2][20/72]	lr: 1.000e-03, eta: 0:01:05, time: 0.173, data_time: 0.118, memory: 880, loss: 0.4163
+2023-02-05 19:15:04,306 - mmcls - INFO - Epoch [2][40/72]	lr: 1.000e-03, eta: 0:00:59, time: 0.063, data_time: 0.012, memory: 880, loss: 0.3436
+2023-02-05 19:15:05,619 - mmcls - INFO - Epoch [2][60/72]	lr: 1.000e-03, eta: 0:00:54, time: 0.066, data_time: 0.013, memory: 880, loss: 0.3327
+2023-02-05 19:15:07,642 - mmcls - INFO - Epoch(val) [2][18]	accuracy_top-1: 93.3099, accuracy_top-5: 100.0000
+2023-02-05 19:15:11,065 - mmcls - INFO - Epoch [3][20/72]	lr: 1.000e-03, eta: 0:00:52, time: 0.170, data_time: 0.112, memory: 880, loss: 0.2847
+2023-02-05 19:15:12,362 - mmcls - INFO - Epoch [3][40/72]	lr: 1.000e-03, eta: 0:00:49, time: 0.065, data_time: 0.014, memory: 880, loss: 0.2598
+2023-02-05 19:15:13,634 - mmcls - INFO - Epoch [3][60/72]	lr: 1.000e-03, eta: 0:00:45, time: 0.064, data_time: 0.012, memory: 880, loss: 0.2767
+2023-02-05 19:15:15,681 - mmcls - INFO - Epoch(val) [3][18]	accuracy_top-1: 93.1338, accuracy_top-5: 100.0000
+2023-02-05 19:15:19,160 - mmcls - INFO - Epoch [4][20/72]	lr: 1.000e-03, eta: 0:00:44, time: 0.173, data_time: 0.120, memory: 880, loss: 0.2478
+2023-02-05 19:15:20,490 - mmcls - INFO - Epoch [4][40/72]	lr: 1.000e-03, eta: 0:00:41, time: 0.067, data_time: 0.016, memory: 880, loss: 0.2210
+2023-02-05 19:15:21,777 - mmcls - INFO - Epoch [4][60/72]	lr: 1.000e-03, eta: 0:00:38, time: 0.064, data_time: 0.012, memory: 880, loss: 0.2468
+2023-02-05 19:15:23,730 - mmcls - INFO - Epoch(val) [4][18]	accuracy_top-1: 94.3662, accuracy_top-5: 100.0000
+2023-02-05 19:15:27,284 - mmcls - INFO - Epoch [5][20/72]	lr: 1.000e-03, eta: 0:00:37, time: 0.176, data_time: 0.125, memory: 880, loss: 0.1970
+2023-02-05 19:15:28,533 - mmcls - INFO - Epoch [5][40/72]	lr: 1.000e-03, eta: 0:00:34, time: 0.062, data_time: 0.009, memory: 880, loss: 0.1931
+2023-02-05 19:15:29,825 - mmcls - INFO - Epoch [5][60/72]	lr: 1.000e-03, eta: 0:00:32, time: 0.065, data_time: 0.004, memory: 880, loss: 0.2514
+2023-02-05 19:15:30,562 - mmcls - INFO - Saving checkpoint at 5 epochs
+2023-02-05 19:15:32,201 - mmcls - INFO - Epoch(val) [5][18]	accuracy_top-1: 94.1901, accuracy_top-5: 100.0000
+2023-02-05 19:15:35,787 - mmcls - INFO - Epoch [6][20/72]	lr: 1.000e-03, eta: 0:00:30, time: 0.178, data_time: 0.125, memory: 880, loss: 0.1931
+2023-02-05 19:15:37,072 - mmcls - INFO - Epoch [6][40/72]	lr: 1.000e-03, eta: 0:00:28, time: 0.064, data_time: 0.013, memory: 880, loss: 0.2051
+2023-02-05 19:15:38,363 - mmcls - INFO - Epoch [6][60/72]	lr: 1.000e-03, eta: 0:00:26, time: 0.065, data_time: 0.009, memory: 880, loss: 0.1964
+2023-02-05 19:15:40,428 - mmcls - INFO - Epoch(val) [6][18]	accuracy_top-1: 94.8944, accuracy_top-5: 100.0000
+2023-02-05 19:15:44,015 - mmcls - INFO - Epoch [7][20/72]	lr: 1.000e-03, eta: 0:00:23, time: 0.178, data_time: 0.126, memory: 880, loss: 0.1752
+2023-02-05 19:15:45,324 - mmcls - INFO - Epoch [7][40/72]	lr: 1.000e-03, eta: 0:00:21, time: 0.065, data_time: 0.012, memory: 880, loss: 0.1759
+2023-02-05 19:15:46,627 - mmcls - INFO - Epoch [7][60/72]	lr: 1.000e-03, eta: 0:00:19, time: 0.065, data_time: 0.010, memory: 880, loss: 0.2010
+2023-02-05 19:15:48,496 - mmcls - INFO - Epoch(val) [7][18]	accuracy_top-1: 94.5423, accuracy_top-5: 100.0000
+2023-02-05 19:15:51,977 - mmcls - INFO - Epoch [8][20/72]	lr: 1.000e-03, eta: 0:00:17, time: 0.173, data_time: 0.112, memory: 880, loss: 0.1718
+2023-02-05 19:15:53,248 - mmcls - INFO - Epoch [8][40/72]	lr: 1.000e-03, eta: 0:00:15, time: 0.063, data_time: 0.001, memory: 880, loss: 0.1854
+2023-02-05 19:15:54,494 - mmcls - INFO - Epoch [8][60/72]	lr: 1.000e-03, eta: 0:00:13, time: 0.062, data_time: 0.002, memory: 880, loss: 0.1783
+2023-02-05 19:15:56,494 - mmcls - INFO - Epoch(val) [8][18]	accuracy_top-1: 93.6620, accuracy_top-5: 100.0000
+2023-02-05 19:15:59,956 - mmcls - INFO - Epoch [9][20/72]	lr: 1.000e-03, eta: 0:00:10, time: 0.172, data_time: 0.121, memory: 880, loss: 0.1818
+2023-02-05 19:16:01,266 - mmcls - INFO - Epoch [9][40/72]	lr: 1.000e-03, eta: 0:00:09, time: 0.066, data_time: 0.015, memory: 880, loss: 0.1521
+2023-02-05 19:16:02,538 - mmcls - INFO - Epoch [9][60/72]	lr: 1.000e-03, eta: 0:00:07, time: 0.064, data_time: 0.009, memory: 880, loss: 0.1653
+2023-02-05 19:16:04,534 - mmcls - INFO - Epoch(val) [9][18]	accuracy_top-1: 94.3662, accuracy_top-5: 100.0000
+2023-02-05 19:16:08,111 - mmcls - INFO - Epoch [10][20/72]	lr: 1.000e-03, eta: 0:00:04, time: 0.178, data_time: 0.126, memory: 880, loss: 0.1742
+2023-02-05 19:16:09,498 - mmcls - INFO - Epoch [10][40/72]	lr: 1.000e-03, eta: 0:00:02, time: 0.069, data_time: 0.019, memory: 880, loss: 0.1503
+2023-02-05 19:16:10,874 - mmcls - INFO - Epoch [10][60/72]	lr: 1.000e-03, eta: 0:00:01, time: 0.069, data_time: 0.018, memory: 880, loss: 0.1442
+2023-02-05 19:16:11,601 - mmcls - INFO - Saving checkpoint at 10 epochs
+2023-02-05 19:16:13,297 - mmcls - INFO - Epoch(val) [10][18]	accuracy_top-1: 94.7183, accuracy_top-5: 100.0000
