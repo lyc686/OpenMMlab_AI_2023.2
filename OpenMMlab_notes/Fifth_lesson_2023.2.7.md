@@ -4,7 +4,7 @@
 
 此次实战营的积分规则介绍：
 
-<img src="F:/python/研究生python/OpenMMlab/AI_OpenMMlab_2023.2/OpenMMlab_AI_2023.2/images/image-20230202213040164.png" alt="image-20230202213040164" style="zoom:80%;" />
+<img src="../images/image-20230202213040164.png" alt="image-20230202213040164" style="zoom:80%;" />
 
 ## 学习参考
 
