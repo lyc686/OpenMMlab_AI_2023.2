@@ -4,6 +4,8 @@
 
 目前包括：
 
-1. 作业一
- * 基础版（代码+最优参数+日志）
- * 进阶版（代码+最后参数+日志+cam热力图可视化+pdf评估指标+csv文件）
+1. 作业二基础版的.pth参数文件放在如下网盘链接
+
+链接：https://pan.baidu.com/s/1nlJOlSvEkUpPWYuMBsVwiQ?pwd=e0pw 
+提取码：e0pw 
+
