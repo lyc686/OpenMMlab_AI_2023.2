@@ -10,7 +10,7 @@
 
 笔记建议结合ppt来学习使用，ppt中对应知识可以参照笔记的标题进行查看。
 
-ppt（第二次课ppt的后半部分）：[lesson2_ppt](https://github.com/lyc686/OpenMMlab_AI_2023.2/blob/main/ppt/02%20%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E4%B8%8E%20MMClassification.pdf)
+ppt（ppt_02的后半部分）：[lesson3_ppt](https://github.com/lyc686/OpenMMlab_AI_2023.2/blob/main/ppt/02%20%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E4%B8%8E%20MMClassification.pdf)
 
 b站回放：[OpenMMLab AI 实战营](https://space.bilibili.com/1293512903/channel/collectiondetail?sid=1068652)
 
@@ -21,6 +21,8 @@ b站回放：[OpenMMLab AI 实战营](https://space.bilibili.com/1293512903/chan
 * 同济子豪兄（大佬）：[子豪兄b站主页](https://space.bilibili.com/1900783?spm_id_from=333.337.0.0)
 * OpenMMlab主页：[OpenMMla主页](https://space.bilibili.com/1293512903)
 * OpenMMlab Github仓库链接：[Github OpenMMlab](https://github.com/open-mmlab)
+
+* MMClassification Github仓库链接：[Github MMClassification](https://github.com/open-mmlab/mmclassification)
 
 * OpenMMlab 此次AI实战营的仓库：[AI实战营github](https://github.com/open-mmlab/OpenMMLabCamp)
 
@@ -390,5 +392,4 @@ b站视频主页：https://space.bilibili.com/1293512903/channel/collectiondetai
 * 3090显卡cuda最低11.1
 
 * 尽量使用pip安装
-
 

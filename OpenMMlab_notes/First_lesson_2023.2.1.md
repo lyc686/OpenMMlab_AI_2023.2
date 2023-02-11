@@ -21,6 +21,7 @@ b站回放：[OpenMMLab AI 实战营](https://space.bilibili.com/1293512903/chan
 * 同济子豪兄（大佬）：[子豪兄b站主页](https://space.bilibili.com/1900783?spm_id_from=333.337.0.0)
 * OpenMMlab主页：[OpenMMla主页](https://space.bilibili.com/1293512903)
 * OpenMMlab Github仓库链接：[Github OpenMMlab](https://github.com/open-mmlab)
+* OpenMMlab 此次AI实战营的仓库：[AI实战营github](https://github.com/open-mmlab/OpenMMLabCamp)
 
 ## 一、计算机视觉领域的应用
 

@@ -10,7 +10,7 @@
 
 笔记建议结合ppt来学习使用，ppt中对应知识可以参照笔记的标题进行查看。
 
-ppt（第四次课ppt的后半部分）：[lesson4_ppt](https://github.com/lyc686/OpenMMlab_AI_2023.2/blob/main/ppt/03%20%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%8EMMDetection.pdf)
+ppt（ppt_03的后半部分）：[lesson5_ppt](https://github.com/lyc686/OpenMMlab_AI_2023.2/blob/main/ppt/03%20%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%8EMMDetection.pdf)
 
 b站回放：[OpenMMLab AI 实战营](https://space.bilibili.com/1293512903/channel/collectiondetail?sid=1068652)
 
@@ -21,6 +21,8 @@ b站回放：[OpenMMLab AI 实战营](https://space.bilibili.com/1293512903/chan
 * 同济子豪兄（大佬）：[子豪兄b站主页](https://space.bilibili.com/1900783?spm_id_from=333.337.0.0)
 * OpenMMlab主页：[OpenMMla主页](https://space.bilibili.com/1293512903)
 * OpenMMlab Github仓库链接：[Github OpenMMlab](https://github.com/open-mmlab)
+
+* MMDetection Github仓库链接：[Github MMDetection](https://github.com/open-mmlab/mmdetection)
 
 * OpenMMlab 此次AI实战营的仓库：[AI实战营github](https://github.com/open-mmlab/OpenMMLabCamp)
 

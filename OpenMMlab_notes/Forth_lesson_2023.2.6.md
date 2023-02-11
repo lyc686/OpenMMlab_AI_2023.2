@@ -22,6 +22,8 @@ b站回放：[OpenMMLab AI 实战营](https://space.bilibili.com/1293512903/chan
 * OpenMMlab主页：[OpenMMla主页](https://space.bilibili.com/1293512903)
 * OpenMMlab Github仓库链接：[Github OpenMMlab](https://github.com/open-mmlab)
 
+* MMDetection Github仓库链接：[Github MMDetection](https://github.com/open-mmlab/mmdetection)
+
 * OpenMMlab 此次AI实战营的仓库：[AI实战营github](https://github.com/open-mmlab/OpenMMLabCamp)
 
 ## 一、什么是目标检测
