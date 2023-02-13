@@ -4,12 +4,7 @@
 
 目前包括：
 
-1. 作业三基础版的.pth参数文件放在如下网盘链接
-
-链接：https://pan.baidu.com/s/1Qi-BaWbv_9-R5DD9g2Kq2g?pwd=yl0d 
-提取码：yl0d 
-
-2. 作业三进阶版的.pth参数文件放在如下网盘链接
+1. 作业三进阶版的.pth参数文件放在如下网盘链接
 
 链接：https://pan.baidu.com/s/1RJCgT_0EmQyi-MMHvqYJDA?pwd=vcz7 
 提取码：vcz7 
