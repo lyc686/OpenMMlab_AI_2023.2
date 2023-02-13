@@ -36,7 +36,7 @@ model = dict(
         channels=512,
         pool_scales=(1, 2, 3, 6),
         dropout_ratio=0.1,
-        num_classes=20,
+        num_classes=21,
         norm_cfg=dict(type='BN', requires_grad=True),
         align_corners=False,
         loss_decode=dict(
@@ -49,7 +49,7 @@ model = dict(
         num_convs=1,
         concat_input=False,
         dropout_ratio=0.1,
-        num_classes=20,
+        num_classes=21,
         norm_cfg=dict(type='BN', requires_grad=True),
         align_corners=False,
         loss_decode=dict(
@@ -192,13 +192,13 @@ visualizer = dict(
     name='visualizer')
 log_processor = dict(by_epoch=False)
 log_level = 'INFO'
-load_from = './work_dirs/voc2012/iter_2400.pth'
+load_from = './checkpoint/pspnet_r50-d8_512x1024_80k_cityscapes_20200606_112131-2376f12b.pth'
 resume = False
 tta_model = dict(type='SegTTAModel')
-optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0005)
+optimizer = dict(type='SGD', lr=0.00125, momentum=0.9, weight_decay=0.0005)
 optim_wrapper = dict(
     type='OptimWrapper',
-    optimizer=dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0005),
+    optimizer=dict(type='SGD', lr=0.00125, momentum=0.9, weight_decay=0.0005),
     clip_grad=None)
 param_scheduler = [
     dict(
@@ -209,16 +209,15 @@ param_scheduler = [
         end=80000,
         by_epoch=False)
 ]
-train_cfg = dict(type='IterBasedTrainLoop', max_iters=2400, val_interval=800)
+train_cfg = dict(type='IterBasedTrainLoop', max_iters=4000, val_interval=1000)
 val_cfg = dict(type='ValLoop')
 test_cfg = dict(type='TestLoop')
 default_hooks = dict(
     timer=dict(type='IterTimerHook'),
-    logger=dict(type='LoggerHook', interval=400, log_metric_by_epoch=False),
+    logger=dict(type='LoggerHook', interval=500, log_metric_by_epoch=False),
     param_scheduler=dict(type='ParamSchedulerHook'),
-    checkpoint=dict(type='CheckpointHook', by_epoch=False, interval=800),
+    checkpoint=dict(type='CheckpointHook', by_epoch=False, interval=1000),
     sampler_seed=dict(type='DistSamplerSeedHook'),
     visualization=dict(type='SegVisualizationHook'))
 work_dir = './work_dirs/voc2012'
 randomness = dict(seed=0)
-launcher = 'none'
