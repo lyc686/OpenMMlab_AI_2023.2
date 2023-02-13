@@ -64,8 +64,7 @@ b站回放：[OpenMMLab AI 实战营](https://space.bilibili.com/1293512903/chan
     * Cityscapes
     * PASCAL VOC
 
-
-<img src="C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\image-20230211112514389.png" alt="image-20230211112514389" style="zoom:80%;margin-left:0px;" />
+<img src="../images/image-20230211112514389.png" alt="image-20230211112514389" style="zoom:80%;margin-left:0px;" />
 
 ### 3.数据集推荐：
 
