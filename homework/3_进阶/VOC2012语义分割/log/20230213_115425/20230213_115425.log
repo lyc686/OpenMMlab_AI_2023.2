@@ -1,4 +1,4 @@
-2023/02/11 15:26:06 - mmengine - INFO - 
+2023/02/13 11:54:26 - mmengine - INFO - 
 ------------------------------------------------------------
 System environment:
     sys.platform: linux
@@ -39,7 +39,7 @@ Runtime environment:
     GPU number: 1
 ------------------------------------------------------------
 
-2023/02/11 15:26:07 - mmengine - INFO - Config:
+2023/02/13 11:54:27 - mmengine - INFO - Config:
 norm_cfg = dict(type='BN', requires_grad=True)
 data_preprocessor = dict(
     type='SegDataPreProcessor',
@@ -78,7 +78,7 @@ model = dict(
         channels=512,
         pool_scales=(1, 2, 3, 6),
         dropout_ratio=0.1,
-        num_classes=20,
+        num_classes=21,
         norm_cfg=dict(type='BN', requires_grad=True),
         align_corners=False,
         loss_decode=dict(
@@ -91,7 +91,7 @@ model = dict(
         num_convs=1,
         concat_input=False,
         dropout_ratio=0.1,
-        num_classes=20,
+        num_classes=21,
         norm_cfg=dict(type='BN', requires_grad=True),
         align_corners=False,
         loss_decode=dict(
@@ -237,10 +237,10 @@ log_level = 'INFO'
 load_from = './checkpoint/pspnet_r50-d8_512x1024_80k_cityscapes_20200606_112131-2376f12b.pth'
 resume = False
 tta_model = dict(type='SegTTAModel')
-optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0005)
+optimizer = dict(type='SGD', lr=0.00125, momentum=0.9, weight_decay=0.0005)
 optim_wrapper = dict(
     type='OptimWrapper',
-    optimizer=dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0005),
+    optimizer=dict(type='SGD', lr=0.00125, momentum=0.9, weight_decay=0.0005),
     clip_grad=None)
 param_scheduler = [
     dict(
@@ -251,25 +251,25 @@ param_scheduler = [
         end=80000,
         by_epoch=False)
 ]
-train_cfg = dict(type='IterBasedTrainLoop', max_iters=2400, val_interval=800)
+train_cfg = dict(type='IterBasedTrainLoop', max_iters=4000, val_interval=1000)
 val_cfg = dict(type='ValLoop')
 test_cfg = dict(type='TestLoop')
 default_hooks = dict(
     timer=dict(type='IterTimerHook'),
-    logger=dict(type='LoggerHook', interval=400, log_metric_by_epoch=False),
+    logger=dict(type='LoggerHook', interval=500, log_metric_by_epoch=False),
     param_scheduler=dict(type='ParamSchedulerHook'),
-    checkpoint=dict(type='CheckpointHook', by_epoch=False, interval=800),
+    checkpoint=dict(type='CheckpointHook', by_epoch=False, interval=1000),
     sampler_seed=dict(type='DistSamplerSeedHook'),
     visualization=dict(type='SegVisualizationHook'))
 work_dir = './work_dirs/voc2012'
 randomness = dict(seed=0)
 
-2023/02/11 15:26:07 - mmengine - WARNING - The "visualizer" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
-2023/02/11 15:26:07 - mmengine - WARNING - The "vis_backend" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
-2023/02/11 15:26:08 - mmengine - WARNING - The "model" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
-2023/02/11 15:26:14 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
-2023/02/11 15:26:14 - mmengine - WARNING - The "hook" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
-2023/02/11 15:26:14 - mmengine - INFO - Hooks will be executed in the following order:
+2023/02/13 11:54:27 - mmengine - WARNING - The "visualizer" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
+2023/02/13 11:54:27 - mmengine - WARNING - The "vis_backend" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
+2023/02/13 11:54:27 - mmengine - WARNING - The "model" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
+2023/02/13 11:54:35 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
+2023/02/13 11:54:35 - mmengine - WARNING - The "hook" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
+2023/02/13 11:54:35 - mmengine - INFO - Hooks will be executed in the following order:
 before_run:
 (VERY_HIGH   ) RuntimeInfoHook                    
 (BELOW_NORMAL) LoggerHook                         
@@ -338,19 +338,19 @@ after_test_epoch:
 after_run:
 (BELOW_NORMAL) LoggerHook                         
  -------------------- 
-2023/02/11 15:26:16 - mmengine - WARNING - The "loop" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
-2023/02/11 15:26:16 - mmengine - WARNING - The "dataset" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
-2023/02/11 15:26:16 - mmengine - WARNING - The "transform" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
-2023/02/11 15:26:17 - mmengine - WARNING - The "data sampler" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
-2023/02/11 15:26:17 - mmengine - WARNING - The "optimizer wrapper constructor" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
-2023/02/11 15:26:17 - mmengine - WARNING - The "optimizer" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
-2023/02/11 15:26:17 - mmengine - WARNING - The "optim_wrapper" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
-2023/02/11 15:26:17 - mmengine - WARNING - The "parameter scheduler" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
-2023/02/11 15:26:17 - mmengine - WARNING - The "metric" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
-2023/02/11 15:26:18 - mmengine - WARNING - The "weight initializer" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
-2023/02/11 15:26:18 - mmengine - INFO - load model from: open-mmlab://resnet50_v1c
-2023/02/11 15:26:18 - mmengine - INFO - Loads checkpoint by openmmlab backend from path: open-mmlab://resnet50_v1c
-2023/02/11 15:26:18 - mmengine - WARNING - The model and loaded state dict do not match exactly
+2023/02/13 11:54:44 - mmengine - WARNING - The "loop" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
+2023/02/13 11:54:44 - mmengine - WARNING - The "dataset" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
+2023/02/13 11:54:44 - mmengine - WARNING - The "transform" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
+2023/02/13 11:54:44 - mmengine - WARNING - The "data sampler" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
+2023/02/13 11:54:44 - mmengine - WARNING - The "optimizer wrapper constructor" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
+2023/02/13 11:54:44 - mmengine - WARNING - The "optimizer" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
+2023/02/13 11:54:44 - mmengine - WARNING - The "optim_wrapper" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
+2023/02/13 11:54:44 - mmengine - WARNING - The "parameter scheduler" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
+2023/02/13 11:54:44 - mmengine - WARNING - The "metric" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
+2023/02/13 11:54:45 - mmengine - WARNING - The "weight initializer" registry in mmseg did not set import location. Fallback to call `mmseg.utils.register_all_modules` instead.
+2023/02/13 11:54:45 - mmengine - INFO - load model from: open-mmlab://resnet50_v1c
+2023/02/13 11:54:45 - mmengine - INFO - Loads checkpoint by openmmlab backend from path: open-mmlab://resnet50_v1c
+2023/02/13 11:54:48 - mmengine - WARNING - The model and loaded state dict do not match exactly
 
 unexpected key in source state_dict: fc.weight, fc.bias
 
@@ -851,10 +851,10 @@ PretrainedInit: load from open-mmlab://resnet50_v1c
 backbone.layer4.2.bn3.bias - torch.Size([2048]): 
 PretrainedInit: load from open-mmlab://resnet50_v1c 
 
-decode_head.conv_seg.weight - torch.Size([20, 512, 1, 1]): 
+decode_head.conv_seg.weight - torch.Size([21, 512, 1, 1]): 
 NormalInit: mean=0, std=0.01, bias=0 
 
-decode_head.conv_seg.bias - torch.Size([20]): 
+decode_head.conv_seg.bias - torch.Size([21]): 
 NormalInit: mean=0, std=0.01, bias=0 
 
 decode_head.psp_modules.0.1.conv.weight - torch.Size([512, 2048, 1, 1]): 
@@ -902,10 +902,10 @@ The value is the same before and after calling `init_weights` of EncoderDecoder
 decode_head.bottleneck.bn.bias - torch.Size([512]): 
 The value is the same before and after calling `init_weights` of EncoderDecoder  
 
-auxiliary_head.conv_seg.weight - torch.Size([20, 256, 1, 1]): 
+auxiliary_head.conv_seg.weight - torch.Size([21, 256, 1, 1]): 
 NormalInit: mean=0, std=0.01, bias=0 
 
-auxiliary_head.conv_seg.bias - torch.Size([20]): 
+auxiliary_head.conv_seg.bias - torch.Size([21]): 
 NormalInit: mean=0, std=0.01, bias=0 
 
 auxiliary_head.convs.0.conv.weight - torch.Size([256, 1024, 3, 3]): 
@@ -916,107 +916,142 @@ The value is the same before and after calling `init_weights` of EncoderDecoder
 
 auxiliary_head.convs.0.bn.bias - torch.Size([256]): 
 The value is the same before and after calling `init_weights` of EncoderDecoder  
-2023/02/11 15:26:18 - mmengine - INFO - Load checkpoint from ./checkpoint/pspnet_r50-d8_512x1024_80k_cityscapes_20200606_112131-2376f12b.pth
-2023/02/11 15:26:18 - mmengine - INFO - Checkpoints will be saved to /home/featurize/work/OpenMMlab_AI_2023.2/run/mmsegmentation/work_dirs/voc2012.
-2023/02/11 15:27:22 - mmengine - INFO - Exp name: voc_cfg_20230211_152606
-2023/02/11 15:28:36 - mmengine - INFO - Iter(train) [ 400/2400]  lr: 9.9555e-03  eta: 0:11:28  time: 0.3399  data_time: 0.0102  memory: 5948  loss: 1.5213  decode.loss_ce: 1.0797  decode.acc_seg: 65.1768  aux.loss_ce: 0.4416  aux.acc_seg: 67.9002
-2023/02/11 15:30:52 - mmengine - INFO - Iter(train) [ 800/2400]  lr: 9.9110e-03  eta: 0:09:07  time: 0.3391  data_time: 0.0095  memory: 3775  loss: 1.4428  decode.loss_ce: 1.0158  decode.acc_seg: 78.4122  aux.loss_ce: 0.4271  aux.acc_seg: 71.4500
-2023/02/11 15:30:52 - mmengine - INFO - Saving checkpoint at 800 iterations
-2023/02/11 15:31:18 - mmengine - INFO - Iter(val) [ 400/1449]    eta: 0:01:02  time: 0.0346  data_time: 0.0018  memory: 2911  
-2023/02/11 15:31:33 - mmengine - INFO - Iter(val) [ 800/1449]    eta: 0:00:31  time: 0.0860  data_time: 0.0026  memory: 2765  
-2023/02/11 15:31:45 - mmengine - INFO - Iter(val) [1200/1449]    eta: 0:00:10  time: 0.0263  data_time: 0.0020  memory: 2705  
-2023/02/11 15:31:52 - mmengine - INFO - per class results:
-2023/02/11 15:31:52 - mmengine - INFO - 
+2023/02/13 11:54:49 - mmengine - INFO - Load checkpoint from ./checkpoint/pspnet_r50-d8_512x1024_80k_cityscapes_20200606_112131-2376f12b.pth
+2023/02/13 11:54:49 - mmengine - INFO - Checkpoints will be saved to /home/featurize/work/OpenMMlab_AI_2023.2/run/mmsegmentation/work_dirs/voc2012.
+2023/02/13 11:55:53 - mmengine - INFO - Exp name: voc2012_cfg_20230213_115425
+2023/02/13 11:57:40 - mmengine - INFO - Iter(train) [ 500/4000]  lr: 1.2435e-03  eta: 0:19:57  time: 0.3364  data_time: 0.0092  memory: 5948  loss: 1.1294  decode.loss_ce: 0.7717  decode.acc_seg: 80.8296  aux.loss_ce: 0.3577  aux.acc_seg: 77.4256
+2023/02/13 12:00:29 - mmengine - INFO - Exp name: voc2012_cfg_20230213_115425
+2023/02/13 12:00:29 - mmengine - INFO - Iter(train) [1000/4000]  lr: 1.2371e-03  eta: 0:17:01  time: 0.3388  data_time: 0.0104  memory: 3774  loss: 1.0454  decode.loss_ce: 0.6854  decode.acc_seg: 80.0836  aux.loss_ce: 0.3600  aux.acc_seg: 77.1497
+2023/02/13 12:00:29 - mmengine - INFO - Saving checkpoint at 1000 iterations
+2023/02/13 12:01:01 - mmengine - INFO - Iter(val) [ 500/1449]    eta: 0:00:56  time: 0.0693  data_time: 0.0024  memory: 2911  
+2023/02/13 12:01:20 - mmengine - INFO - Iter(val) [1000/1449]    eta: 0:00:21  time: 0.0376  data_time: 0.0018  memory: 2706  
+2023/02/13 12:01:33 - mmengine - INFO - per class results:
+2023/02/13 12:01:33 - mmengine - INFO - 
 +-------------+-------+-------+
 |    Class    |  IoU  |  Acc  |
 +-------------+-------+-------+
-|  aeroplane  | 77.19 | 91.33 |
+|  background | 85.86 | 97.05 |
+|  aeroplane  |  0.14 |  0.14 |
 |   bicycle   |  0.0  |  0.0  |
 |     bird    |  0.0  |  0.0  |
 |     boat    |  0.0  |  0.0  |
 |    bottle   |  0.0  |  0.0  |
-|     bus     |  0.0  |  0.0  |
-|     car     |  0.0  |  0.0  |
-|     cat     | 14.96 | 16.58 |
-|    chair    | 13.41 |  70.5 |
+|     bus     | 76.87 | 81.75 |
+|     car     | 69.75 | 82.07 |
+|     cat     | 29.78 | 82.58 |
+|    chair    |  0.0  |  0.0  |
 |     cow     |  0.0  |  0.0  |
 | diningtable |  0.0  |  0.0  |
-|     dog     |  0.0  |  0.0  |
-|    horse    |  0.78 |  0.9  |
-|  motorbike  |  0.0  |  0.0  |
-|    person   |  0.0  |  0.0  |
-| pottedplant | 30.27 | 54.45 |
+|     dog     |  0.76 |  0.98 |
+|    horse    |  0.0  |  0.0  |
+|  motorbike  | 50.66 | 72.22 |
+|    person   | 63.13 | 86.94 |
+| pottedplant |  0.0  |  0.0  |
 |    sheep    |  0.0  |  0.0  |
-|     sofa    |  1.0  |  1.02 |
-|    train    |  0.0  |  0.0  |
-|  tvmonitor  |  0.82 |  0.87 |
+|     sofa    |  0.0  |  0.0  |
+|    train    |  53.7 | 73.13 |
+|  tvmonitor  |  0.0  |  0.0  |
 +-------------+-------+-------+
-2023/02/11 15:31:52 - mmengine - INFO - Iter(val) [1449/1449]  aAcc: 72.3000  mIoU: 6.9200  mAcc: 11.7800
-2023/02/11 15:33:01 - mmengine - INFO - Exp name: voc_cfg_20230211_152606
-2023/02/11 15:34:09 - mmengine - INFO - Iter(train) [1200/2400]  lr: 9.8664e-03  eta: 0:06:50  time: 0.3393  data_time: 0.0097  memory: 3775  loss: 1.1622  decode.loss_ce: 0.8009  decode.acc_seg: 75.1814  aux.loss_ce: 0.3613  aux.acc_seg: 70.5956
-2023/02/11 15:36:25 - mmengine - INFO - Iter(train) [1600/2400]  lr: 9.8217e-03  eta: 0:04:33  time: 0.3418  data_time: 0.0106  memory: 3775  loss: 1.1205  decode.loss_ce: 0.7724  decode.acc_seg: 63.0705  aux.loss_ce: 0.3481  aux.acc_seg: 65.4664
-2023/02/11 15:36:25 - mmengine - INFO - Saving checkpoint at 1600 iterations
-2023/02/11 15:36:38 - mmengine - INFO - Iter(val) [ 400/1449]    eta: 0:00:27  time: 0.0250  data_time: 0.0016  memory: 812  
-2023/02/11 15:36:48 - mmengine - INFO - Iter(val) [ 800/1449]    eta: 0:00:16  time: 0.0237  data_time: 0.0014  memory: 812  
-2023/02/11 15:36:59 - mmengine - INFO - Iter(val) [1200/1449]    eta: 0:00:06  time: 0.0246  data_time: 0.0015  memory: 812  
-2023/02/11 15:37:06 - mmengine - INFO - per class results:
-2023/02/11 15:37:06 - mmengine - INFO - 
+2023/02/13 12:01:33 - mmengine - INFO - Iter(val) [1449/1449]  aAcc: 82.3000  mIoU: 20.5100  mAcc: 27.4700
+2023/02/13 12:04:22 - mmengine - INFO - Iter(train) [1500/4000]  lr: 1.2306e-03  eta: 0:14:09  time: 0.3387  data_time: 0.0103  memory: 3774  loss: 0.8363  decode.loss_ce: 0.5269  decode.acc_seg: 87.3896  aux.loss_ce: 0.3094  aux.acc_seg: 81.9727
+2023/02/13 12:07:12 - mmengine - INFO - Exp name: voc2012_cfg_20230213_115425
+2023/02/13 12:07:12 - mmengine - INFO - Iter(train) [2000/4000]  lr: 1.2241e-03  eta: 0:11:19  time: 0.3388  data_time: 0.0107  memory: 3774  loss: 0.8616  decode.loss_ce: 0.5222  decode.acc_seg: 80.5428  aux.loss_ce: 0.3394  aux.acc_seg: 76.5410
+2023/02/13 12:07:12 - mmengine - INFO - Saving checkpoint at 2000 iterations
+2023/02/13 12:07:27 - mmengine - INFO - Iter(val) [ 500/1449]    eta: 0:00:24  time: 0.0243  data_time: 0.0015  memory: 812  
+2023/02/13 12:07:40 - mmengine - INFO - Iter(val) [1000/1449]    eta: 0:00:11  time: 0.0247  data_time: 0.0017  memory: 812  
+2023/02/13 12:07:51 - mmengine - INFO - per class results:
+2023/02/13 12:07:51 - mmengine - INFO - 
 +-------------+-------+-------+
 |    Class    |  IoU  |  Acc  |
 +-------------+-------+-------+
-|  aeroplane  | 79.39 | 94.59 |
-|   bicycle   | 22.26 | 61.35 |
-|     bird    |  0.0  |  0.0  |
-|     boat    |  0.2  |  0.2  |
-|    bottle   |  1.0  |  1.06 |
-|     bus     |  0.0  |  0.0  |
-|     car     | 14.22 | 20.16 |
-|     cat     | 28.95 | 47.98 |
-|    chair    | 27.26 | 37.57 |
+|  background | 86.98 |  94.2 |
+|  aeroplane  | 49.15 | 59.07 |
+|   bicycle   |  0.0  |  0.0  |
+|     bird    |  0.04 |  0.04 |
+|     boat    |  0.62 |  0.62 |
+|    bottle   |  0.0  |  0.0  |
+|     bus     | 68.82 | 71.97 |
+|     car     | 65.61 | 74.81 |
+|     cat     | 30.95 | 88.65 |
+|    chair    |  0.0  |  0.0  |
 |     cow     |  0.0  |  0.0  |
-| diningtable |  8.16 |  9.3  |
-|     dog     |  0.55 |  0.56 |
-|    horse    |  6.01 |  6.71 |
-|  motorbike  |  0.67 |  0.72 |
-|    person   | 19.72 | 33.61 |
-| pottedplant | 33.05 | 46.53 |
-|    sheep    |  0.0  |  0.0  |
-|     sofa    |  2.88 |  2.91 |
-|    train    |  1.07 |  1.1  |
-|  tvmonitor  | 22.79 | 60.48 |
+| diningtable | 28.18 | 66.15 |
+|     dog     |  7.39 | 11.01 |
+|    horse    | 21.05 | 38.59 |
+|  motorbike  |  52.8 | 64.71 |
+|    person   | 67.77 | 78.09 |
+| pottedplant |  0.0  |  0.0  |
+|    sheep    | 12.29 | 14.44 |
+|     sofa    | 26.17 | 37.85 |
+|    train    |  45.2 | 81.67 |
+|  tvmonitor  | 32.98 |  36.9 |
 +-------------+-------+-------+
-2023/02/11 15:37:06 - mmengine - INFO - Iter(val) [1449/1449]  aAcc: 76.4200  mIoU: 13.4100  mAcc: 21.2400
-2023/02/11 15:39:22 - mmengine - INFO - Exp name: voc_cfg_20230211_152606
-2023/02/11 15:39:22 - mmengine - INFO - Iter(train) [2000/2400]  lr: 9.7771e-03  eta: 0:02:16  time: 0.3413  data_time: 0.0101  memory: 3775  loss: 1.2240  decode.loss_ce: 0.8293  decode.acc_seg: 64.4455  aux.loss_ce: 0.3947  aux.acc_seg: 69.9538
-2023/02/11 15:41:39 - mmengine - INFO - Iter(train) [2400/2400]  lr: 9.7324e-03  eta: 0:00:00  time: 0.3400  data_time: 0.0095  memory: 3775  loss: 1.0900  decode.loss_ce: 0.7220  decode.acc_seg: 68.2520  aux.loss_ce: 0.3680  aux.acc_seg: 65.4021
-2023/02/11 15:41:39 - mmengine - INFO - Saving checkpoint at 2400 iterations
-2023/02/11 15:41:52 - mmengine - INFO - Iter(val) [ 400/1449]    eta: 0:00:27  time: 0.0244  data_time: 0.0015  memory: 812  
-2023/02/11 15:42:02 - mmengine - INFO - Iter(val) [ 800/1449]    eta: 0:00:16  time: 0.0240  data_time: 0.0015  memory: 812  
-2023/02/11 15:42:12 - mmengine - INFO - Iter(val) [1200/1449]    eta: 0:00:06  time: 0.0247  data_time: 0.0015  memory: 812  
-2023/02/11 15:42:18 - mmengine - INFO - per class results:
-2023/02/11 15:42:18 - mmengine - INFO - 
+2023/02/13 12:07:51 - mmengine - INFO - Iter(val) [1449/1449]  aAcc: 82.4400  mIoU: 28.3800  mAcc: 38.9900
+2023/02/13 12:10:40 - mmengine - INFO - Iter(train) [2500/4000]  lr: 1.2176e-03  eta: 0:08:28  time: 0.3372  data_time: 0.0094  memory: 3774  loss: 0.7712  decode.loss_ce: 0.4813  decode.acc_seg: 84.9279  aux.loss_ce: 0.2899  aux.acc_seg: 76.9951
+2023/02/13 12:13:29 - mmengine - INFO - Exp name: voc2012_cfg_20230213_115425
+2023/02/13 12:13:29 - mmengine - INFO - Iter(train) [3000/4000]  lr: 1.2111e-03  eta: 0:05:39  time: 0.3372  data_time: 0.0094  memory: 3774  loss: 0.7055  decode.loss_ce: 0.4265  decode.acc_seg: 72.1893  aux.loss_ce: 0.2790  aux.acc_seg: 62.2237
+2023/02/13 12:13:29 - mmengine - INFO - Saving checkpoint at 3000 iterations
+2023/02/13 12:13:44 - mmengine - INFO - Iter(val) [ 500/1449]    eta: 0:00:23  time: 0.0241  data_time: 0.0015  memory: 812  
+2023/02/13 12:13:56 - mmengine - INFO - Iter(val) [1000/1449]    eta: 0:00:11  time: 0.0238  data_time: 0.0014  memory: 812  
+2023/02/13 12:14:07 - mmengine - INFO - per class results:
+2023/02/13 12:14:07 - mmengine - INFO - 
 +-------------+-------+-------+
 |    Class    |  IoU  |  Acc  |
 +-------------+-------+-------+
-|  aeroplane  | 79.74 | 89.64 |
-|   bicycle   | 35.71 | 44.02 |
-|     bird    |  0.0  |  0.0  |
-|     boat    |  7.66 |  9.61 |
-|    bottle   |  9.79 | 11.92 |
-|     bus     |  0.0  |  0.0  |
-|     car     | 38.95 | 41.44 |
-|     cat     | 36.31 | 39.46 |
-|    chair    | 18.59 | 77.95 |
-|     cow     |  0.0  |  0.0  |
-| diningtable |  9.22 | 10.69 |
-|     dog     |  8.51 |  11.5 |
-|    horse    |  4.86 |  8.84 |
-|  motorbike  |  5.2  |  6.0  |
-|    person   | 29.44 | 38.59 |
-| pottedplant | 44.17 | 65.44 |
-|    sheep    |  0.0  |  0.0  |
-|     sofa    | 18.57 | 53.24 |
-|    train    |  1.37 |  1.37 |
-|  tvmonitor  | 41.32 | 59.72 |
+|  background | 87.96 | 94.86 |
+|  aeroplane  | 59.12 | 64.08 |
+|   bicycle   |  0.04 |  0.04 |
+|     bird    | 10.33 | 10.95 |
+|     boat    |  35.1 | 40.05 |
+|    bottle   | 28.83 | 30.63 |
+|     bus     | 67.64 | 83.76 |
+|     car     | 73.43 | 78.79 |
+|     cat     | 39.98 | 57.06 |
+|    chair    |  1.02 |  1.02 |
+|     cow     |  9.45 | 10.19 |
+| diningtable | 27.57 | 50.63 |
+|     dog     | 33.01 | 60.14 |
+|    horse    | 22.49 | 35.69 |
+|  motorbike  | 53.46 | 83.07 |
+|    person   |  68.0 | 82.98 |
+| pottedplant | 13.46 | 13.64 |
+|    sheep    | 33.79 | 47.27 |
+|     sofa    | 19.72 | 28.95 |
+|    train    | 51.76 | 87.11 |
+|  tvmonitor  | 48.05 | 67.68 |
 +-------------+-------+-------+
-2023/02/11 15:42:18 - mmengine - INFO - Iter(val) [1449/1449]  aAcc: 75.6900  mIoU: 19.4700  mAcc: 28.4700
+2023/02/13 12:14:07 - mmengine - INFO - Iter(val) [1449/1449]  aAcc: 84.9400  mIoU: 37.3400  mAcc: 48.9800
+2023/02/13 12:16:56 - mmengine - INFO - Iter(train) [3500/4000]  lr: 1.2046e-03  eta: 0:02:49  time: 0.3365  data_time: 0.0089  memory: 3774  loss: 0.5622  decode.loss_ce: 0.3147  decode.acc_seg: 88.5588  aux.loss_ce: 0.2476  aux.acc_seg: 79.9673
+2023/02/13 12:19:45 - mmengine - INFO - Exp name: voc2012_cfg_20230213_115425
+2023/02/13 12:19:45 - mmengine - INFO - Iter(train) [4000/4000]  lr: 1.1981e-03  eta: 0:00:00  time: 0.3397  data_time: 0.0105  memory: 3774  loss: 0.5706  decode.loss_ce: 0.3142  decode.acc_seg: 91.2130  aux.loss_ce: 0.2564  aux.acc_seg: 84.8874
+2023/02/13 12:19:45 - mmengine - INFO - Saving checkpoint at 4000 iterations
+2023/02/13 12:20:01 - mmengine - INFO - Iter(val) [ 500/1449]    eta: 0:00:24  time: 0.0248  data_time: 0.0016  memory: 812  
+2023/02/13 12:20:13 - mmengine - INFO - Iter(val) [1000/1449]    eta: 0:00:11  time: 0.0240  data_time: 0.0014  memory: 812  
+2023/02/13 12:20:24 - mmengine - INFO - per class results:
+2023/02/13 12:20:24 - mmengine - INFO - 
++-------------+-------+-------+
+|    Class    |  IoU  |  Acc  |
++-------------+-------+-------+
+|  background | 88.92 | 93.04 |
+|  aeroplane  | 65.45 | 69.71 |
+|   bicycle   |  34.8 | 40.64 |
+|     bird    |  31.6 | 45.68 |
+|     boat    | 37.01 | 50.58 |
+|    bottle   | 36.98 | 69.01 |
+|     bus     | 70.78 | 89.76 |
+|     car     | 70.51 | 79.82 |
+|     cat     | 46.22 | 85.69 |
+|    chair    | 10.73 | 12.78 |
+|     cow     |  27.1 | 30.77 |
+| diningtable |  40.2 | 65.65 |
+|     dog     | 33.91 | 57.46 |
+|    horse    | 32.71 | 40.89 |
+|  motorbike  | 63.19 | 77.47 |
+|    person   |  70.0 |  85.4 |
+| pottedplant | 39.37 | 51.88 |
+|    sheep    | 35.58 | 55.21 |
+|     sofa    | 28.18 | 49.15 |
+|    train    | 60.26 | 75.66 |
+|  tvmonitor  | 40.84 | 53.91 |
++-------------+-------+-------+
+2023/02/13 12:20:24 - mmengine - INFO - Iter(val) [1449/1449]  aAcc: 86.1000  mIoU: 45.9200  mAcc: 60.9600
