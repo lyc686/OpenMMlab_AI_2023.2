@@ -30,7 +30,7 @@ b站回放：[OpenMMLab AI 实战营](https://space.bilibili.com/1293512903/chan
 * [计算机视觉图像分割基础知识](https://github.com/lyc686/OpenMMlab_AI_2023.2/blob/main/OpenMMlab_notes/Sixth_lesson_2023.2.9.md)
 * [基于MMSegmentation的图像分割实战](https://github.com/lyc686/OpenMMlab_AI_2023.2/blob/main/OpenMMlab_notes/Seventh_lesson_2023.2.10.md)
 
-### 2.七次代码实战作业
+### 2.六次代码实战作业
 
 * 图像分类实战（MMClassification）
   * [基于flower_5花卉数据集完成图像分类任务](https://github.com/lyc686/OpenMMlab_AI_2023.2/tree/main/homework/1_%E5%9F%BA%E7%A1%80)
